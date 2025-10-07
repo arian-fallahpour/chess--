@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-#include "Pieces/Piece.h"
 #include "Square.h"
 
+class Piece;
 using std::vector;
 
 constexpr int BOARD_SIZE = 8;
@@ -13,6 +13,10 @@ constexpr int BOARD_SIZE = 8;
 class Board {
  public:
   Board();
+
+  const Square* getSquare(int row, int col) const;
+  const Piece* getPiece(int row, int col) const;
+  bool isInBoard(int row, int col) const;
 
   friend std::ostream& operator<<(std::ostream& os, const Board& board);
 

@@ -3,18 +3,19 @@
 #include <iostream>
 #include <ostream>
 
-#include "Color.h"
-
 Square::Square() : Square{Color::WHITE, nullptr} {};
 Square::Square(Color color) : Square{color, nullptr} {};
 Square::Square(Color color, Piece* piece = nullptr)
     : color(color), piece(piece) {};
 
 void Square::placePiece(Piece* piece) { this->piece = piece; };
+
 Piece* Square::removePiece() { return std::exchange(this->piece, nullptr); }
+
 Piece* Square::capturePiece(Piece* piece) {
   return std::exchange(this->piece, piece);
 }
+
 Piece* Square::getPiece() const { return this->piece; };
 
 std::ostream& operator<<(std::ostream& os, const Square& square) {
