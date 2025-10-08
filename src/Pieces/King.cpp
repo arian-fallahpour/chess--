@@ -24,5 +24,9 @@ std::vector<std::array<int, 2>> King::getValidMoves(const Board& board) const {
       }
     }
   };
+
+  // Determine which moves would place the king in check and remove them from
+  // the list Loop over all alivePieces
+
   return moves;
 };

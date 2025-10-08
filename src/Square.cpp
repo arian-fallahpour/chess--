@@ -12,10 +12,6 @@ void Square::placePiece(Piece* piece) { this->piece = piece; };
 
 Piece* Square::removePiece() { return std::exchange(this->piece, nullptr); }
 
-Piece* Square::capturePiece(Piece* piece) {
-  return std::exchange(this->piece, piece);
-}
-
 Piece* Square::getPiece() const { return this->piece; };
 
 std::ostream& operator<<(std::ostream& os, const Square& square) {

@@ -5,9 +5,12 @@
 
 #include "Board.h"
 #include "Color.h"
+#include "Players/Player.h"
 
 class Game {
  public:
+  Game();
+
   void start();
   bool hasGameEnded();
   std::string getGameState();
@@ -15,6 +18,7 @@ class Game {
  private:
   Board board;
   Color turn{Color::WHITE};
+  Player* players[2];
   bool gameEnded{false};
 
   void makeTurn();

@@ -14,7 +14,6 @@ class Square {
 
   void placePiece(Piece* piece);
   Piece* removePiece();
-  Piece* capturePiece(Piece* piece);
   Piece* getPiece() const;
 
   friend std::ostream& operator<<(std::ostream& os, const Square& square);

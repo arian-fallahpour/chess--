@@ -2,7 +2,20 @@
 
 #include <iostream>
 
-void Game::start() { std::cout << "Game started!" << std::endl; }
+Game::Game() {};
+
+// Game::Game(Player* whitePlayer, Player* blackPlayer)
+//     : players{whitePlayer, blackPlayer} {};
+
+void Game::start() {
+  std::cout << "Game started!" << std::endl;
+
+  while (!this->gameEnded) {
+    // Get current player to make a move
+
+    // Check for game end conditions (checkmate, stalemate, etc.)
+  }
+}
 
 bool Game::hasGameEnded() { return this->gameEnded; }
 
