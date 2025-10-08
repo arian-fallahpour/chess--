@@ -1,6 +1,6 @@
 #include "Rook.h"
 
-void Rook::print(std::ostream& os) const { os << (color.get() == Color::WHITE ? "R" : "r"); };
+void Rook::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "R" : "r"); };
 
 vector<array<int, 2>> Rook::getValidMoves(const Board& board) const {
   vector<array<int, 2>> moves;
@@ -15,7 +15,7 @@ vector<array<int, 2>> Rook::getValidMoves(const Board& board) const {
       if (!board.getPiece(r, c)) {
         moves.push_back({r, c});
       } else {
-        if (board.getPiece(r, c)->getColor().get() != this->color.get()) {
+        if (board.getPiece(r, c)->getColor() != this->color) {
           moves.push_back({r, c});
         }
         break;

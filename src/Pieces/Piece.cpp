@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-Piece::Piece(Color color, int row, int col) : color(color), row(row), col(col) {}
+Piece::Piece(Color::Value color, int row, int col) : color(color), row(row), col(col) {}
 
-Color Piece::getColor() const { return this->color; }
+Color::Value Piece::getColor() const { return this->color; }
 
 bool Piece::isValidMove(int row, int col, const Board& board) const {
   std::vector<std::array<int, 2>> moves = this->getValidMoves(board);
@@ -20,6 +20,12 @@ void Piece::moveTo(int row, int col) {
   this->row = row;
   this->col = col;
   movesCount++;
+}
+
+void Piece::moveBackTo(int row, int col) {
+  this->row = row;
+  this->col = col;
+  movesCount--;
 }
 
 const int Piece::getRow() { return this->row; }

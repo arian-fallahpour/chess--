@@ -1,6 +1,6 @@
 #include "Bishop.h"
 
-void Bishop::print(std::ostream& os) const { os << (color.get() == Color::WHITE ? "B" : "b"); };
+void Bishop::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "B" : "b"); };
 
 vector<array<int, 2>> Bishop::getValidMoves(const Board& board) const {
   vector<array<int, 2>> moves;
@@ -15,7 +15,7 @@ vector<array<int, 2>> Bishop::getValidMoves(const Board& board) const {
       if (!board.getPiece(r, c)) {
         moves.push_back({r, c});
       } else {
-        if (board.getPiece(r, c)->getColor().get() != this->color.get()) {
+        if (board.getPiece(r, c)->getColor() != this->color) {
           moves.push_back({r, c});
         }
         break;

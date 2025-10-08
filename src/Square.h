@@ -9,8 +9,8 @@
 class Square {
  public:
   Square();
-  Square(Color color);
-  Square(Color color, Piece* piece);
+  Square(Color::Value color);
+  Square(Color::Value color, Piece* piece);
 
   void placePiece(Piece* piece);
   Piece* removePiece();
@@ -19,7 +19,7 @@ class Square {
   friend std::ostream& operator<<(std::ostream& os, const Square& square);
 
  private:
-  Color color;
+  Color::Value color;
   Piece* piece = nullptr;
 };
 

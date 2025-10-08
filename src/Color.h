@@ -9,8 +9,7 @@ class Color {
 
   Color(Value value) : value(value) {};
 
-  Color::Value get() const;
-  Color::Value flipped() const;
+  static Color::Value flipped(Color::Value color);
 
   friend std::ostream& operator<<(std::ostream& os, const Color& color);
 

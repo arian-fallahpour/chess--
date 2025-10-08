@@ -1,6 +1,6 @@
 #include "Knight.h"
 
-void Knight::print(std::ostream& os) const { os << (color.get() == Color::WHITE ? "N" : "n"); };
+void Knight::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "N" : "n"); };
 
 vector<array<int, 2>> Knight::getValidMoves(const Board& board) const {
   vector<array<int, 2>> moves;
@@ -14,7 +14,7 @@ vector<array<int, 2>> Knight::getValidMoves(const Board& board) const {
     int c = this->col + offset[1];
 
     if (board.isInBoard(r, c) &&
-        (!board.getPiece(r, c) || board.getPiece(r, c)->getColor().get() != this->color.get())) {
+        (!board.getPiece(r, c) || board.getPiece(r, c)->getColor() != this->color)) {
       moves.push_back({r, c});
     }
   }

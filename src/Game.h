@@ -14,14 +14,15 @@ class Game {
   Game();
 
   void start();
-  Game::State getGameState();
 
  private:
   Board board;
-  Color turn{Color::WHITE};
+  Color::Value turn{Color::Value::WHITE};
   Player* players[2];
 
   void makeTurn();
+  bool isInCheck(Color::Value color);
+  Game::State getGameState();
 };
 
 #endif

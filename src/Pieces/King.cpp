@@ -1,6 +1,6 @@
 #include "King.h"
 
-void King::print(std::ostream& os) const { os << (color.get() == Color::WHITE ? "K" : "k"); };
+void King::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "K" : "k"); };
 
 vector<array<int, 2>> King::getValidMoves(const Board& board) const {
   vector<array<int, 2>> moves;
@@ -17,7 +17,7 @@ vector<array<int, 2>> King::getValidMoves(const Board& board) const {
       if (!board.getPiece(r, c)) {
         moves.push_back({r, c});
       } else {
-        if (board.getPiece(r, c)->getColor().get() != this->color.get()) {
+        if (board.getPiece(r, c)->getColor() != this->color) {
           moves.push_back({r, c});
         }
       }

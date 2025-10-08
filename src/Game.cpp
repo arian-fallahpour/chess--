@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Pieces/King.h"
+
 using std::array;
 using std::vector;
 
@@ -18,36 +20,70 @@ void Game::start() {
 
     // Check for game end conditions (checkmate, stalemate, etc.)
   }
-}
+};
 
+void Game::makeTurn() {
+  // Note: If player is in check, they must move out of check
+
+  // Note: If player moves into check, move is invalid
+};
+
+bool Game::isInCheck(Color::Value color) {
+  Color::Value enemyColor = Color::flipped(color);
+
+  for (Piece* enemyPiece : this->board.getAlivePieces(enemyColor)) {
+    vector<array<int, 2>> validMoves = enemyPiece->getValidMoves(board);
+
+    for (array<int, 2> validMove : validMoves) {
+      Piece* attackedPiece = board.getPiece(validMove[0], validMove[1]);
+
+      if (attackedPiece != nullptr && typeid(*attackedPiece) == typeid(King) &&
+          attackedPiece->getColor() == color) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+// TEST
 Game::State Game::getGameState() {
   // Check for checkmate
-  for (Piece* piece : this->board.getAlivePieces(this->turn)) {
-    // For each move, simulate the move and check if the king is still in check
-    // If there's at least one move that gets the king out of check, return PLAY
+  if (this->isInCheck(this->turn)) {
+    for (Piece* piece : this->board.getAlivePieces(this->turn)) {
+      vector<array<int, 2>> validMoves = piece->getValidMoves(board);
+      int fromRow = piece->getRow();
+      int fromCol = piece->getCol();
+
+      for (array<int, 2> validMove : validMoves) {
+        board.movePiece(fromRow, fromCol, validMove[0], validMove[1]);
+        bool stillInCheck = this->isInCheck(this->turn);
+        board.undoLastMove();
+
+        if (!stillInCheck) {
+          return Game::State::PLAY;
+        }
+      }
+    }
   }
 
   // Check for stalemate
+  vector<array<int, 2>> allValidMoves;
+  for (Piece* piece : this->board.getAlivePieces(this->turn)) {
+    vector<array<int, 2>> validMoves = piece->getValidMoves(board);
+    allValidMoves.insert(allValidMoves.end(), validMoves.begin(), validMoves.end());
+  }
 
-  // Check for draw
+  if (allValidMoves.empty()) {
+    return Game::State::STALEMATE;
+  }
+
+  // Check for draw (only kings left for now)
+  if (this->board.getAlivePieces(Color::WHITE).size() == 1 &&
+      this->board.getAlivePieces(Color::BLACK).size() == 1) {
+    return Game::State::DRAW;
+  }
 
   return Game::State::PLAY;
-}
-
-void Game::makeTurn() {
-  std::cout << "It is now " << this->turn.get() << "'s turn." << std::endl;
-
-  short int moveFromX, moveFromY, moveToX, moveToY;
-
-  std::cout << "Enter the coordinates of the piece you want to move with a space "
-               "between them (e.g. '0 1'): "
-            << std::endl;
-  std::cin >> moveFromX >> moveFromY;
-
-  std::cout << "Enter the coordinates of where you want to move the piece to "
-               "with a space between them (e.g. '0 1'): "
-            << std::endl;
-  std::cin >> moveToX >> moveToY;
-
-  this->turn = this->turn.flipped();
-}
+};

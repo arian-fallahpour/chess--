@@ -4,9 +4,8 @@
 #include <ostream>
 
 Square::Square() : Square{Color::WHITE, nullptr} {};
-Square::Square(Color color) : Square{color, nullptr} {};
-Square::Square(Color color, Piece* piece = nullptr)
-    : color(color), piece(piece) {};
+Square::Square(Color::Value color) : Square{color, nullptr} {};
+Square::Square(Color::Value color, Piece* piece = nullptr) : color(color), piece(piece) {};
 
 void Square::placePiece(Piece* piece) { this->piece = piece; };
 
@@ -18,7 +17,7 @@ std::ostream& operator<<(std::ostream& os, const Square& square) {
   if (square.piece != nullptr) {
     os << *(square.piece);
   } else {
-    if (square.color.get() == Color::WHITE)
+    if (square.color == Color::WHITE)
       os << "■";
     else {
       os << "□";

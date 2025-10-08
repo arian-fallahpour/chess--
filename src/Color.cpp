@@ -2,10 +2,8 @@
 
 #include <iostream>
 
-Color::Value Color::get() const { return this->value; }
-
-Color::Value Color::flipped() const {
-  return this->value == Color::WHITE ? Color::BLACK : Color::WHITE;
+Color::Value Color::flipped(Color::Value color) {
+  return color == Color::WHITE ? Color::BLACK : Color::WHITE;
 }
 
 std::ostream& operator<<(std::ostream& os, const Color& color) {

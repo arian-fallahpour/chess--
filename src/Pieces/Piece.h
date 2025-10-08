@@ -11,12 +11,13 @@ using std::vector;
 class Board;
 class Piece {
  public:
-  Piece(Color color, int row, int col);
+  Piece(Color::Value color, int row, int col);
 
-  Color getColor() const;
+  Color::Value getColor() const;
   const int getRow();
   const int getCol();
   void moveTo(int row, int col);
+  void moveBackTo(int row, int col);
   bool isValidMove(int row, int col, const Board &board) const;
 
   virtual vector<array<int, 2>> getValidMoves(const Board &board) const = 0;
@@ -25,7 +26,7 @@ class Piece {
   friend std::ostream &operator<<(std::ostream &os, const Piece &piece);
 
  protected:
-  Color color;
+  Color::Value color;
   int movesCount = 0;
   int row;
   int col;
