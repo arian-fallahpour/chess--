@@ -19,6 +19,11 @@ Board::Board() {
     }
   }
 
+  this->alivePiecesByColor[Color::WHITE] = vector<Piece*>{};
+  this->alivePiecesByColor[Color::BLACK] = vector<Piece*>{};
+  this->deadPiecesByColor[Color::WHITE] = vector<Piece*>{};
+  this->deadPiecesByColor[Color::BLACK] = vector<Piece*>{};
+
   for (int c{0}; c < BOARD_SIZE; c++) {
     this->initPiece(1, c, new Pawn(Color::BLACK, 1, c));
     this->initPiece(6, c, new Pawn(Color::WHITE, 6, c));
@@ -41,10 +46,6 @@ Board::Board() {
   this->initPiece(7, 4, new King(Color::WHITE, 7, 4));
 
   std::cout << *this << std::endl;
-
-  this->movePiece(7, 6, 4, 5);
-
-  std::cout << *this << std::endl;
 }
 
 void Board::movePiece(int fromRow, int fromCol, int toRow, int toCol) {
@@ -63,8 +64,8 @@ void Board::movePiece(int fromRow, int fromCol, int toRow, int toCol) {
   Piece* capturedPiece = toSquare->getPiece();
 
   if (capturedPiece != nullptr) {
-    this->removeAlivePiece(capturedPiece);
-    this->deadPieces.push_back(capturedPiece);
+    this->removeAlivePiece(capturedPiece->getColor(), capturedPiece);
+    this->addDeadPiece(capturedPiece->getColor(), capturedPiece);
     toSquare->removePiece();
   }
 
@@ -75,7 +76,7 @@ void Board::movePiece(int fromRow, int fromCol, int toRow, int toCol) {
 
 void Board::initPiece(int row, int col, Piece* piece) {
   this->getSquare(row, col)->placePiece(piece);
-  this->alivePieces.push_back(piece);
+  this->addAlivePiece(piece->getColor(), piece);
 };
 
 bool Board::isInBoard(int row, int col) const {
@@ -84,20 +85,32 @@ bool Board::isInBoard(int row, int col) const {
 
 Square* Board::getSquare(int row, int col) const { return grid[row][col]; };
 
-Piece* Board::getPiece(int row, int col) const {
-  return this->getSquare(row, col)->getPiece();
+Piece* Board::getPiece(int row, int col) const { return this->getSquare(row, col)->getPiece(); };
+
+vector<Piece*> Board::getAlivePieces(Color color) const {
+  return this->alivePiecesByColor.at(color.get());
 };
 
-void Board::removeAlivePiece(Piece* piece) {
-  this->alivePieces.erase(
-      std::remove(this->alivePieces.begin(), this->alivePieces.end(), piece),
-      this->alivePieces.end());
+vector<Piece*> Board::getDeadPieces(Color color) const {
+  return this->deadPiecesByColor.at(color.get());
 };
 
-void Board::removeDeadPiece(Piece* piece) {
-  this->deadPieces.erase(
-      std::remove(this->deadPieces.begin(), this->deadPieces.end(), piece),
-      this->deadPieces.end());
+void Board::addAlivePiece(Color color, Piece* piece) {
+  this->alivePiecesByColor.at(color.get()).push_back(piece);
+};
+
+void Board::addDeadPiece(Color color, Piece* piece) {
+  this->deadPiecesByColor.at(color.get()).push_back(piece);
+};
+
+void Board::removeAlivePiece(Color color, Piece* piece) {
+  vector<Piece*>& alivePieces = this->alivePiecesByColor.at(color.get());
+  alivePieces.erase(std::remove(alivePieces.begin(), alivePieces.end(), piece), alivePieces.end());
+};
+
+void Board::removeDeadPiece(Color color, Piece* piece) {
+  vector<Piece*>& deadPieces = this->deadPiecesByColor.at(color.get());
+  deadPieces.erase(std::remove(deadPieces.begin(), deadPieces.end(), piece), deadPieces.end());
 };
 
 std::ostream& operator<<(std::ostream& os, const Board& board) {

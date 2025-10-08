@@ -10,8 +10,7 @@ class Pawn : public Piece {
  public:
   using Piece::Piece;
 
-  std::vector<std::array<int, 2>> getValidMoves(
-      const Board& board) const override;
+  vector<array<int, 2>> getValidMoves(const Board& board) const override;
 
   void print(std::ostream& os) const override;
 };

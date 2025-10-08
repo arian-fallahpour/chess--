@@ -5,20 +5,24 @@
 
 #include "../Color.h"
 
+using std::array;
+using std::vector;
+
 class Board;
 class Piece {
  public:
   Piece(Color color, int row, int col);
 
-  void moveTo(int row, int col);
   Color getColor() const;
+  const int getRow();
+  const int getCol();
+  void moveTo(int row, int col);
+  bool isValidMove(int row, int col, const Board &board) const;
 
-  virtual std::vector<std::array<int, 2>> getValidMoves(
-      const Board& board) const = 0;
-  bool isValidMove(int row, int col, const Board& board) const;
-  virtual void print(std::ostream& os) const = 0;
+  virtual vector<array<int, 2>> getValidMoves(const Board &board) const = 0;
+  virtual void print(std::ostream &os) const = 0;
 
-  friend std::ostream& operator<<(std::ostream& os, const Piece& piece);
+  friend std::ostream &operator<<(std::ostream &os, const Piece &piece);
 
  protected:
   Color color;

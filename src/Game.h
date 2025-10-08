@@ -9,17 +9,17 @@
 
 class Game {
  public:
+  enum State { PLAY, CHECKMATE, STALEMATE, DRAW };
+
   Game();
 
   void start();
-  bool hasGameEnded();
-  std::string getGameState();
+  Game::State getGameState();
 
  private:
   Board board;
   Color turn{Color::WHITE};
   Player* players[2];
-  bool gameEnded{false};
 
   void makeTurn();
 };

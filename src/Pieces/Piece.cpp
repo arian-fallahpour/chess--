@@ -2,8 +2,7 @@
 
 #include <iostream>
 
-Piece::Piece(Color color, int row, int col)
-    : color(color), row(row), col(col) {}
+Piece::Piece(Color color, int row, int col) : color(color), row(row), col(col) {}
 
 Color Piece::getColor() const { return this->color; }
 
@@ -22,6 +21,9 @@ void Piece::moveTo(int row, int col) {
   this->col = col;
   movesCount++;
 }
+
+const int Piece::getRow() { return this->row; }
+const int Piece::getCol() { return this->col; }
 
 std::ostream& operator<<(std::ostream& os, const Piece& piece) {
   piece.print(os);

@@ -1,23 +1,20 @@
 #include "Knight.h"
 
-void Knight::print(std::ostream& os) const {
-  os << (color.get() == Color::WHITE ? "N" : "n");
-};
+void Knight::print(std::ostream& os) const { os << (color.get() == Color::WHITE ? "N" : "n"); };
 
-std::vector<std::array<int, 2>> Knight::getValidMoves(
-    const Board& board) const {
-  std::vector<std::array<int, 2>> moves;
+vector<array<int, 2>> Knight::getValidMoves(const Board& board) const {
+  vector<array<int, 2>> moves;
 
-  const std::array<std::array<int, 2>, 8> offsets = {
-      {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}}};
+  const array<array<int, 2>, 8> offsets = {
+      {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}}
+  };
 
-  for (const std::array<int, 2>& offset : offsets) {
+  for (const array<int, 2>& offset : offsets) {
     int r = this->row + offset[0];
     int c = this->col + offset[1];
 
     if (board.isInBoard(r, c) &&
-        (!board.getPiece(r, c) ||
-         board.getPiece(r, c)->getColor().get() != this->color.get())) {
+        (!board.getPiece(r, c) || board.getPiece(r, c)->getColor().get() != this->color.get())) {
       moves.push_back({r, c});
     }
   }

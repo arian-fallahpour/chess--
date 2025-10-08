@@ -1,17 +1,13 @@
 #include "Bishop.h"
 
-void Bishop::print(std::ostream& os) const {
-  os << (color.get() == Color::WHITE ? "B" : "b");
-};
+void Bishop::print(std::ostream& os) const { os << (color.get() == Color::WHITE ? "B" : "b"); };
 
-std::vector<std::array<int, 2>> Bishop::getValidMoves(
-    const Board& board) const {
-  std::vector<std::array<int, 2>> moves;
+vector<array<int, 2>> Bishop::getValidMoves(const Board& board) const {
+  vector<array<int, 2>> moves;
 
-  const std::array<std::array<int, 2>, 4> directions = {
-      {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}}};
+  const array<array<int, 2>, 4> directions = {{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}}};
 
-  for (const std::array<int, 2>& direction : directions) {
+  for (const array<int, 2>& direction : directions) {
     int r = this->row + direction[0];
     int c = this->col + direction[1];
 
