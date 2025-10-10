@@ -20,5 +20,7 @@ void Move::undo(Board& board) {
 
   if (this->capturedPiece != nullptr) {
     toSquare->placePiece(this->capturedPiece);
+    board.removeDeadPiece(this->capturedPiece->getColor(), this->capturedPiece);
+    board.addAlivePiece(this->capturedPiece->getColor(), this->capturedPiece);
   }
 }

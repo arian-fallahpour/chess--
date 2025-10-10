@@ -9,14 +9,9 @@ using std::vector;
 
 Game* Game::instance = nullptr;
 
-/**
- * TODO: Test
- * - King can move to a square still attacked by a queen after being checked by queen (may not be
- * only from queen)
- * - Is able to move to a piece being attack by queen?
- */
-
 void Game::start() {
+  // Optional: Check if certain conditions are met before starting the game
+
   std::cout << std::endl;
 
   std::cout << "Game started!" << std::endl;
@@ -36,12 +31,16 @@ void Game::start() {
 
   Game::State finalState = this->getGameState();
   if (finalState == Game::State::CHECKMATE) {
-    std::cout << "Checkmate!" << Color::flipped(this->turn) << " wins!" << std::endl;
+    std::cout << "Checkmate!" << std::endl;
+    std::cout << std::endl;
+    std::cout << Color(Color::flipped(this->turn)) << " wins!" << std::endl;
   } else if (finalState == Game::State::STALEMATE) {
     std::cout << "Stalemate! It's a draw!" << std::endl;
   } else if (finalState == Game::State::DRAW) {
     std::cout << "It's a draw!" << std::endl;
   }
+
+  std::cout << std::endl;
 };
 
 void Game::setPlayer(Player* player, Color::Value color) { this->playersByColor[color] = player; };

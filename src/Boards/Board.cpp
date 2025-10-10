@@ -80,7 +80,9 @@ Piece* Board::getPiece(int row, int col) const { return this->getSquare(row, col
 King* Board::getKing(Color::Value color) const { return this->kingsByColor.at(color); }
 
 bool Board::isSquareAttacked(int row, int col, Color::Value attackingColor) const {
-  for (Piece* piece : this->getAlivePieces(attackingColor)) {
+  vector<Piece*> attackingPieces = this->getAlivePieces(attackingColor);
+
+  for (Piece* piece : attackingPieces) {
     vector<array<int, 2>> possibleMoves = piece->getPossibleMoves(*this);
 
     for (array<int, 2> validMove : possibleMoves) {
@@ -124,12 +126,18 @@ void Board::removeDeadPiece(Color::Value color, Piece* piece) {
 };
 
 std::ostream& operator<<(std::ostream& os, const Board& board) {
+  os << "  ";
+  for (int c = 0; c < BOARD_SIZE; c++) os << c << " ";
+  os << "\n";
+
   for (int r{0}; r < BOARD_SIZE; r++) {
     os << BOARD_SIZE - r << " ";
 
     for (int c{0}; c < BOARD_SIZE; c++) {
       os << *board.getSquare(r, c) << " ";
     }
+
+    os << r << " ";
 
     os << "\n";
   }
