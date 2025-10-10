@@ -20,7 +20,7 @@ class Piece {
   void moveBackTo(int row, int col);
   bool isValidMove(int row, int col, const Board &board) const;
 
-  virtual vector<array<int, 2>> getValidMoves(const Board &board) const = 0;
+  virtual vector<array<int, 2>> getPossibleMoves(const Board &board) const = 0;
   virtual void print(std::ostream &os) const = 0;
 
   friend std::ostream &operator<<(std::ostream &os, const Piece &piece);

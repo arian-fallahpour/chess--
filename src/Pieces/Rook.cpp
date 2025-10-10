@@ -2,7 +2,7 @@
 
 void Rook::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "R" : "r"); };
 
-vector<array<int, 2>> Rook::getValidMoves(const Board& board) const {
+vector<array<int, 2>> Rook::getPossibleMoves(const Board& board) const {
   vector<array<int, 2>> moves;
 
   const array<array<int, 2>, 4> directions = {{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}};

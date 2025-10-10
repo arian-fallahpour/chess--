@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-vector<array<int, 2>> Pawn::getValidMoves(const Board& board) const {
+vector<array<int, 2>> Pawn::getPossibleMoves(const Board& board) const {
   vector<array<int, 2>> moves;
 
   int direction = (this->color == Color::WHITE) ? -1 : 1;

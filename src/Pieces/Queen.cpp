@@ -2,7 +2,7 @@
 
 void Queen::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "Q" : "q"); };
 
-vector<array<int, 2>> Queen::getValidMoves(const Board& board) const {
+vector<array<int, 2>> Queen::getPossibleMoves(const Board& board) const {
   vector<array<int, 2>> moves;
 
   const array<array<int, 2>, 8> directions = {

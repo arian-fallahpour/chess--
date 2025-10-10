@@ -7,83 +7,120 @@
 using std::array;
 using std::vector;
 
-Game::Game() {};
+Game* Game::instance = nullptr;
 
-// Game::Game(Player* whitePlayer, Player* blackPlayer)
-//     : players{whitePlayer, blackPlayer} {};
+/**
+ * TODO: Test
+ * - King can move to a square still attacked by a queen after being checked by queen (may not be
+ * only from queen)
+ * - Is able to move to a piece being attack by queen?
+ */
 
 void Game::start() {
+  std::cout << std::endl;
+
   std::cout << "Game started!" << std::endl;
 
   while (this->getGameState() == Game::State::PLAY) {
-    // Get current player to make a move
+    std::cout << *this->board << std::endl;
 
-    // Check for game end conditions (checkmate, stalemate, etc.)
+    std::cout << "It is now " << Color(this->turn) << "'s turn." << std::endl << std::endl;
+
+    Player* currentPlayer = this->getCurrentPlayer();
+    currentPlayer->makeMove(*this->board);
+
+    this->turn = Color::flipped(this->turn);
+  }
+
+  std::cout << *this->board << std::endl;
+
+  Game::State finalState = this->getGameState();
+  if (finalState == Game::State::CHECKMATE) {
+    std::cout << "Checkmate!" << Color::flipped(this->turn) << " wins!" << std::endl;
+  } else if (finalState == Game::State::STALEMATE) {
+    std::cout << "Stalemate! It's a draw!" << std::endl;
+  } else if (finalState == Game::State::DRAW) {
+    std::cout << "It's a draw!" << std::endl;
   }
 };
 
-void Game::makeTurn() {
-  // Note: If player is in check, they must move out of check
+void Game::setPlayer(Player* player, Color::Value color) { this->playersByColor[color] = player; };
 
-  // Note: If player moves into check, move is invalid
+void Game::setBoard(Board* board) { this->board = board; };
+
+Player* Game::getCurrentPlayer() const { return this->playersByColor.at(this->turn); };
+
+Game::State Game::getGameState() {
+  if (this->isInCheckmate()) {
+    return Game::State::CHECKMATE;
+  }
+
+  if (this->isInStalemate()) {
+    return Game::State::STALEMATE;
+  }
+
+  if (this->isInDraw()) {
+    return Game::State::DRAW;
+  }
+
+  return Game::State::PLAY;
 };
 
-bool Game::isInCheck(Color::Value color) {
-  Color::Value enemyColor = Color::flipped(color);
+bool Game::isInCheckmate() {
+  King* king = this->board->getKing(this->turn);
+  vector<Piece*> pieces = this->board->getAlivePieces(this->turn);
 
-  for (Piece* enemyPiece : this->board.getAlivePieces(enemyColor)) {
-    vector<array<int, 2>> validMoves = enemyPiece->getValidMoves(board);
+  if (king->isInCheck(*this->board)) {
+    bool canEscapeCheck = false;
 
-    for (array<int, 2> validMove : validMoves) {
-      Piece* attackedPiece = board.getPiece(validMove[0], validMove[1]);
+    for (Piece* piece : pieces) {
+      vector<array<int, 2>> possibleMoves = piece->getPossibleMoves(*this->board);
 
-      if (attackedPiece != nullptr && typeid(*attackedPiece) == typeid(King) &&
-          attackedPiece->getColor() == color) {
-        return true;
+      for (array<int, 2> possibleMove : possibleMoves) {
+        this->board->movePiece(piece->getRow(), piece->getCol(), possibleMove[0], possibleMove[1]);
+        bool stillInCheck = king->isInCheck(*this->board);
+        this->board->undoLastMove();
+
+        if (!stillInCheck) {
+          canEscapeCheck = true;
+          break;
+        }
       }
+    }
+
+    if (!canEscapeCheck) {
+      return true;
     }
   }
 
   return false;
 };
 
-// TEST
-Game::State Game::getGameState() {
-  // Check for checkmate
-  if (this->isInCheck(this->turn)) {
-    for (Piece* piece : this->board.getAlivePieces(this->turn)) {
-      vector<array<int, 2>> validMoves = piece->getValidMoves(board);
-      int fromRow = piece->getRow();
-      int fromCol = piece->getCol();
+bool Game::isInStalemate() {
+  vector<Piece*> pieces = this->board->getAlivePieces(this->turn);
 
-      for (array<int, 2> validMove : validMoves) {
-        board.movePiece(fromRow, fromCol, validMove[0], validMove[1]);
-        bool stillInCheck = this->isInCheck(this->turn);
-        board.undoLastMove();
+  vector<array<int, 2>> allValidMoves;
+  for (Piece* piece : pieces) {
+    vector<array<int, 2>> possibleMoves = piece->getPossibleMoves(*this->board);
 
-        if (!stillInCheck) {
-          return Game::State::PLAY;
+    King* king = static_cast<King*>(piece);
+    if (king != nullptr) {
+      for (array<int, 2> possibleMove : possibleMoves) {
+        if (!this->board->isSquareAttacked(
+                possibleMove[0], possibleMove[1], Color::flipped(this->turn)
+            )) {
+          allValidMoves.push_back(possibleMove);
         }
       }
+    } else {
+      allValidMoves.insert(allValidMoves.end(), possibleMoves.begin(), possibleMoves.end());
     }
-  }
+  };
 
-  // Check for stalemate
-  vector<array<int, 2>> allValidMoves;
-  for (Piece* piece : this->board.getAlivePieces(this->turn)) {
-    vector<array<int, 2>> validMoves = piece->getValidMoves(board);
-    allValidMoves.insert(allValidMoves.end(), validMoves.begin(), validMoves.end());
-  }
+  return allValidMoves.size() == 0;
+};
 
-  if (allValidMoves.empty()) {
-    return Game::State::STALEMATE;
-  }
-
-  // Check for draw (only kings left for now)
-  if (this->board.getAlivePieces(Color::WHITE).size() == 1 &&
-      this->board.getAlivePieces(Color::BLACK).size() == 1) {
-    return Game::State::DRAW;
-  }
-
-  return Game::State::PLAY;
+bool Game::isInDraw() {
+  return this->board->getAlivePieces(Color::WHITE).size() == 1 &&
+         this->board->getAlivePieces(Color::BLACK).size() == 1;
 };

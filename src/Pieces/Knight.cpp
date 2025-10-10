@@ -2,7 +2,7 @@
 
 void Knight::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "N" : "n"); };
 
-vector<array<int, 2>> Knight::getValidMoves(const Board& board) const {
+vector<array<int, 2>> Knight::getPossibleMoves(const Board& board) const {
   vector<array<int, 2>> moves;
 
   const array<array<int, 2>, 8> offsets = {

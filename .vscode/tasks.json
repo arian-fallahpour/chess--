@@ -12,6 +12,8 @@
         "-std=c++17",
         "${fileDirname}/*.cpp",
         "${fileDirname}/Pieces/*.cpp",
+        "${fileDirname}/Players/*.cpp",
+        "${fileDirname}/Boards/*.cpp",
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}"
       ],

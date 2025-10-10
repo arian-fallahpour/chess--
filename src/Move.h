@@ -1,7 +1,7 @@
 #ifndef _MOVE_H
 #define _MOVE_H
 
-#include "Board.h"
+#include "Boards/Board.h"
 #include "Pieces/Piece.h"
 
 class Move {

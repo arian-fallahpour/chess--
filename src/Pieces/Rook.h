@@ -3,14 +3,14 @@
 
 #include <iostream>
 
-#include "../Board.h"
+#include "../Boards/Board.h"
 #include "Piece.h"
 
 class Rook : public Piece {
  public:
   using Piece::Piece;
 
-  vector<array<int, 2>> getValidMoves(const Board& board) const override;
+  vector<array<int, 2>> getPossibleMoves(const Board& board) const override;
 
   void print(std::ostream& os) const override;
 };
