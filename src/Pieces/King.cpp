@@ -1,6 +1,6 @@
 #include "King.h"
 
-void King::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "K" : "k"); };
+void King::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "♚" : "♔"); };
 
 vector<array<int, 2>> King::getPossibleMoves(const Board& board) const {
   vector<array<int, 2>> moves;

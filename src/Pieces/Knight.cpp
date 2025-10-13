@@ -1,6 +1,6 @@
 #include "Knight.h"
 
-void Knight::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "N" : "n"); };
+void Knight::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "♞" : "♘"); };
 
 vector<array<int, 2>> Knight::getPossibleMoves(const Board& board) const {
   vector<array<int, 2>> moves;

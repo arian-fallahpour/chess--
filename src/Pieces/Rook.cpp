@@ -1,6 +1,6 @@
 #include "Rook.h"
 
-void Rook::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "R" : "r"); };
+void Rook::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "♜" : "♖"); };
 
 vector<array<int, 2>> Rook::getPossibleMoves(const Board& board) const {
   vector<array<int, 2>> moves;

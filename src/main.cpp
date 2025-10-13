@@ -1,5 +1,6 @@
 #include "Boards/BasicBoard.h"
 #include "Boards/ProtectedCheckBoard.h"
+#include "Boards/Situation1Board.h"
 #include "Boards/StalemateBoard.h"
 #include "Game.h"
 #include "Players/HumanPlayer.h"
@@ -11,7 +12,7 @@ int main() {
   HumanPlayer player1{Color::Value::WHITE};
   MiniMaxPlayer player2{Color::Value::BLACK};
 
-  BasicBoard board;
+  Situation1Board board;
 
   game->setPlayer(&player1, player1.getColor());
   game->setPlayer(&player2, player2.getColor());
