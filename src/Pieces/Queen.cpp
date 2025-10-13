@@ -30,3 +30,5 @@ vector<array<int, 2>> Queen::getPossibleMoves(const Board& board) const {
 
   return moves;
 };
+
+int Queen::getValue() const { return 9; };

@@ -34,3 +34,5 @@ vector<array<int, 2>> Pawn::getPossibleMoves(const Board& board) const {
 }
 
 void Pawn::print(std::ostream& os) const { os << (this->color == Color::WHITE ? "P" : "p"); }
+
+int Pawn::getValue() const { return 1; }

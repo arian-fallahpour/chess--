@@ -25,3 +25,5 @@ vector<array<int, 2>> King::getPossibleMoves(const Board& board) const {
 bool King::isInCheck(const Board& board) const {
   return board.isSquareAttacked(this->row, this->col, Color::flipped(this->color));
 }
+
+int King::getValue() const { return 1'000'000; };

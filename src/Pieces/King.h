@@ -10,6 +10,7 @@ class King : public Piece {
 
   vector<array<int, 2>> getPossibleMoves(const Board& board) const override;
   bool isInCheck(const Board& board) const;
+  int getValue() const override;
 
   void print(std::ostream& os) const override;
 };

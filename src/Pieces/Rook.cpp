@@ -28,3 +28,5 @@ vector<array<int, 2>> Rook::getPossibleMoves(const Board& board) const {
 
   return moves;
 };
+
+int Rook::getValue() const { return 5; };

@@ -33,13 +33,14 @@ class Game {
   void start();
   void setPlayer(Player *player, Color::Value color);
   void setBoard(Board *board);
+  Game::State getGameState();
+  Player *getCurrentPlayer() const;
 
  private:
   Board *board;
   map<Color::Value, Player *> playersByColor;
   Color::Value turn{Color::Value::WHITE};
-  Player *getCurrentPlayer() const;
-  Game::State getGameState();
+
   bool isInCheckmate();
   bool isInStalemate();
   bool isInDraw();

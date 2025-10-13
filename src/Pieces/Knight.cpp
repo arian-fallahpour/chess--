@@ -21,3 +21,5 @@ vector<array<int, 2>> Knight::getPossibleMoves(const Board& board) const {
 
   return moves;
 };
+
+int Knight::getValue() const { return 3; };

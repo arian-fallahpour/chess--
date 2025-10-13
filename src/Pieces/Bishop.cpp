@@ -27,3 +27,5 @@ vector<array<int, 2>> Bishop::getPossibleMoves(const Board& board) const {
   };
   return moves;
 }
+
+int Bishop::getValue() const { return 3; };
